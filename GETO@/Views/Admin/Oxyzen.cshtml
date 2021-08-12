@@ -1,0 +1,57 @@
+﻿
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Mail</th>
+                <th>Phone</th>
+                <th>Capacity</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.Mail</td>
+                <td>@item.Phone</td>
+                <td>@item.Capacity</td>
+                <td>@item.State</td>
+                <td>@item.City</td>
+                @if (item.IsVerified)
+                {
+                    <td><div class="btn btn-success disabled">Verifed</div></td>
+                }
+                else
+                {
+                    <td><button class="btn btn-warning" onclick="verifyFun(@item.Id)" id="@item.Id" >Verify</button></td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{ 
+<script>
+    function verifyFun(a) {
+        var btn = document.getElementById(`${a}`);
+        const url = `/Admin/VerifyOxy?Id=${a}`;
+        $.get(url, function (sdata,edata) {
+            if (sdata) {
+                console.log(sdata)
+                if (sdata == "success") {
+                    btn.innerHTML = "Verified"
+                    $(`#${a}`).removeClass("btn-warning").addClass("btn-success").addClass("disabled");
+                }
+                
+            }
+           
+        })
+    }
+</script>
+}

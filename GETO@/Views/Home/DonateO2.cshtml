@@ -1,0 +1,99 @@
+﻿<div class="container">
+    @if (ViewBag.Success == true)
+    {
+        <div class="alert alert-success" role="alert">
+            Your request has been succesfully submitted
+        </div>
+    }
+    else if(ViewBag.Error == true)
+    {
+        <div class="alert alert-danger" role="alert">
+           Error while submitting Your request
+        </div>
+    }
+    <form action="/Home/DonateO2" method="post">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" name="Mail" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Full Name</label>
+            <input type="text" class="form-control" name="Fullname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Full Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Mobile No</label>
+            <input type="text" class="form-control" name="Phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Mobile No">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Capacity</label>
+            <input type="number" class="form-control" name="Capacity" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Capacity">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Address</label>
+            <input type="text" class="form-control" name="Address" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Address">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">State</label>
+            <select class="form-control" id="State" name="State">
+                <option>Select State</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">City</label>
+            <select class="form-control" id="City" name="City">
+                <option>Select City</option>
+            </select>
+        </div>
+        @*<div class="form-group">
+                <label for="exampleInputEmail1">State</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="State">
+            </div>*@
+
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+        getStates();
+
+        $("#State").change(function () {
+            
+            getCity();
+        })
+       
+        function getStates() {
+            $.post("https://countriesnow.space/api/v0.1/countries/states", {
+                "country": "India"
+            }, function (sdata, edata) {
+               
+                $.each(sdata.data.states, function (data) {
+                   
+                    $("#State").append('<option value="' + sdata.data.states[data].name + '">' + sdata.data.states[data].name + '</option>')
+                }
+    )
+                
+            }
+
+            )
+        }
+        function getCity() {
+            var state = document.getElementById("State");
+            $.post("https://countriesnow.space/api/v0.1/countries/state/cities", {
+                "country": "India",
+                "state": state.value
+            }, function (sdata, edata) {
+                var cities = "";
+                for (let i = 0; i < sdata.data.length; i++) {
+                    cities = cities + '<option value="' + sdata.data[i] + '">' + sdata.data[i] + '</option>';
+                   
+                  /*  $("#City").append('<option value="' + sdata.data[i] + '">' + sdata.data[i] + '</option>')*/
+                }
+                $("#City").html("").html(cities);
+            } )
+        }
+    })
+</script>
+}

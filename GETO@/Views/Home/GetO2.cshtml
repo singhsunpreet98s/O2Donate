@@ -1,0 +1,65 @@
+﻿<div class="container">
+    <div class="col-12 text-center" ><h3 id="state" class="text-center"></h3></div>
+    <table id="table1" class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Mail</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Capacity</th>
+                <th>Verifed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr></tr>
+        </tbody>
+    </table>
+</div>
+@section Scripts{ 
+<script>
+    var state = document.getElementById("state");
+    $(document).ready(function () {
+        getLocation();
+        
+    })
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            window.alert("Geolocation not supported !");
+        }
+    }
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        
+        $.get(`https://api.weatherapi.com/v1/current.json?q=${lat},${lng}&key=478b720c08964a649b272557212207`,
+            function (sdata, edata) {
+                getData(sdata.location.region)
+            }
+        )
+        console.log(lat, lng)
+    }
+    function getData(State) {
+        var Url = `/Home/GetO2?State=${State}`;
+        state.innerHTML = `Your Current State is ${State}`;
+        $.post(Url, function (sdata, edata) {
+            console.log(sdata)
+            for (let i = 0; i < sdata.length; i++) {
+                if (sdata[i].isVerified) {
+                    $('#table1 tr:last').after(`<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${sdata[i].capacity}</td><td><a href="#" class="badge badge-success"><span class="material-icons">check_circle</span></a></td></tr>`);
+                }
+                else {
+                    $('#table1 tr:last').after(`<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${sdata[i].capacity}</td><td><a href="#" class="badge badge-danger"><span class="material-icons">cancel</span></a></td></tr>`);
+                }
+            }
+
+        })
+    }
+   
+
+</script>
+}

@@ -1,0 +1,157 @@
+﻿
+
+<div class="container">
+    @if (Model == null && ViewBag.Error !=true)
+    {
+        <div class="col-12 text-center mt-5">
+            <a class="btn btn-primary" href="/User/GetApiKey">Get Api Key</a>
+        </div>
+    }
+    else if (Model!=null && ViewBag.Error!= true)
+    {
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-3"><strong>Your Api Key</strong></div>
+            <div class="col-1">-</div>
+            <div class="col-6"><input type="text" class="btn-block text-center" value="@Model.Key" disabled /></div>
+
+        </div>
+    }
+
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="text-center">Api Documentation</h3>
+        </div>
+        <div class="col-12">
+            <h4 class="text-center">Base Address : <small>https://localhost:44341/User</small> </h4>
+        </div>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="row p-4">
+            <div class="col-4">
+                <h3>To Get Oxyzen Data</h3>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <p>
+                    <strong>Url</strong> <small class="ml-3">/GetO2Data</small>
+                </p>
+                <p>
+                    <strong class="text-success">Paramertes</strong>
+                </p>
+                <p><strong class="text-danger">To Get Full Data</strong></p>
+                <p>
+                    <small><strong>Query String</strong> : Key ="Your Api key"</small>
+                </p>
+                <p></p>
+                <p><strong class="text-danger">To Get Particular State Data</strong></p>
+                <p>
+                    <div class="row">
+                        <div class="col-5"><strong>Query String</strong></div><div class="col-6"><small> : Key ="Your Api key"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> : State ="State Name"</small></div>
+                    </div>
+                </p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="row p-4">
+            <div class="col-4">
+                <h3>To Get Plasma Data</h3>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <p>
+                    <strong>Url</strong> <small class="ml-3">/GetPlasmaData</small>
+                </p>
+                <p>
+                    <strong class="text-success">Paramertes</strong>
+                </p>
+                <p><strong class="text-danger">To Get Full Data</strong></p>
+                <p>
+                    <small><strong>Query String</strong> : Key ="Your Api key"</small>
+                </p>
+                <p></p>
+                <p><strong class="text-danger">To Get Particular State Data</strong></p>
+                <p>
+                    <div class="row">
+                        <div class="col-5"><strong>Query String</strong></div><div class="col-6"><small> : Key ="Your Api key"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> : State ="State Name"</small></div>
+                    </div>
+                </p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="row p-4">
+            <div class="col-4">
+                <h3>To Add O2 Donor</h3>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <p>
+                    <strong>Url</strong> <small class="ml-3">/AddO2Donor</small>
+                </p>
+                <p>
+                    <strong class="text-success">Paramertes</strong>
+                </p>
+             
+                
+                <p>
+                    <div class="row">
+                        <div class="col-5"><strong>Query String</strong></div><div class="col-6"><small> : Key ="Your Api key"</small></div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-5"><strong>Body</strong></div><div class="col-7"><small> :FullName ="User Full Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :Address ="His Address"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :State ="State Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :City ="City Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :Mail ="EMail"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :Capacity ="oxyen in kilo"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small class="text-warning">Capacity must be in number</small></div>
+                    </div>
+                </p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="row p-4">
+            <div class="col-4">
+                <h3>To Add Paslma Donor</h3>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <p>
+                    <strong>Url</strong> <small class="ml-3">/AddPlasmaDonor</small>
+                </p>
+                <p>
+                    <strong class="text-success">Paramertes</strong>
+                </p>
+                
+                
+                <p>
+                    <div class="row">
+                        <div class="col-5"><strong>Query String</strong></div><div class="col-6"><small> : Key ="Your Api key"</small></div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-5"><strong>Body</strong></div><div class="col-7"><small> :FullName ="User Full Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :Address ="His Address"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :State ="State Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :City ="City Name"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :Mail ="EMail"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small> :BGroup ="Blood Group"</small></div>
+                        <div class="col-5"></div><div class="col-6"><small class="text-warning">Blood group values must be if its positve then write p in end lik Bp and if -ve the write n</small></div>
+                    </div>
+                </p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+</div>

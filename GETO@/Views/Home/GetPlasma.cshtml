@@ -1,0 +1,121 @@
+﻿<div class="container">
+    <div class="col-12 text-center"><h3 id="state" class="text-center"></h3></div>
+    <div class="row mt-3 mb-3">
+        <div class="col-1"></div>
+        <div class="col-4"><h3>Select Blood Group</h3></div>
+        <div class="col-1"></div>
+        <div class="col-5">
+            <select class="form-control" id="BGroup" name="BGroup">
+                <option>Select Group</option>
+                <option value="Ap">A-</option>
+                <option value="An">A+</option>
+                <option value="AB">AB</option>
+                <option value="Bn">B-</option>
+                <option value="Bp">B+</option>
+                <option value="Op">O+</option>
+                <option value="On">O-</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="table2" class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Mail</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Blood Group</th>
+                <th>Verifed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr></tr>
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        var state = document.getElementById("state");
+        let group = "";
+        let groupName = "";
+        $("#BGroup").change(function () {
+            $('#table2 tbody').html = "";
+            group = document.getElementById("BGroup").value;
+            
+           
+            if (group == "Bp") {
+                groupName = "B+";
+            }
+            else if (group == "Ap") {
+                groupName = "A+";
+            }
+            else if (groupName == "Op") {
+                groupName = "O+";
+            }
+            else if (group == "An") {
+                groupName = "A-";
+            }
+            else if (group == "Bn") {
+                groupName = "B-";
+            }
+            else if (group == "On") {
+                groupName = "O-";
+            }
+            else {
+                groupName = group;
+            }
+            
+            getLocation();
+
+        })
+    
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            window.alert("Geolocation not supported !");
+        }
+    }
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+
+        $.get(`https://api.weatherapi.com/v1/current.json?q=${lat},${lng}&key=478b720c08964a649b272557212207`,
+            function (sdata, edata) {
+                getData(sdata.location.region)
+            }
+        )
+        console.log(lat, lng)
+    }
+        function getData(State) {
+            var Url = `/Home/GetPlasma?State=${State}&BGroup=${group}`;
+           
+            state.innerHTML = `Your Current State is ${State}`;
+        $.post(Url, function (sdata, edata) {
+            console.log(sdata)
+            let TableBody = "";
+            for (let i = 0; i < sdata.length; i++) {
+               
+                if (sdata[i].isVerified) {
+                    TableBody = TableBody +`<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${groupName}</td><td><a href="#" class="badge badge-success"><span class="material-icons">check_circle</span></a></td></tr>`;
+                    //$('#table2 tr:last').after(`<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${groupName}</td><td><a href="#" class="badge badge-success"><span class="material-icons">check_circle</span></a></td></tr>`);
+                }
+                else {
+                    TableBody = TableBody + `<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${groupName}</td><td><a href="#" class="badge badge-danger"><span class="material-icons">cancel</span></a></td></tr>`;
+                    //$('#table2 tr:last').after(`<tr><td>${sdata[i].fullName}</td><td>${sdata[i].phone}</td><td>${sdata[i].mail}</td><td>${sdata[i].city}</td><td>${sdata[i].state}</td><td>${groupName}</td><td><a href="#" class="badge badge-danger"><span class="material-icons">cancel</span></a></td></tr>`);
+                }
+
+
+            }
+            $('#table2  tbody').html("").html(TableBody);
+
+        })
+    }
+
+
+    </script>
+}

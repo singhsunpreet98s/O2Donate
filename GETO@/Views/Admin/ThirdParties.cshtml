@@ -1,0 +1,28 @@
+﻿<div class="container">
+    @if(ViewBag.Success ==true){
+        <div class="alert alert-success">@ViewBag.User Api Credentials Deleted Succesfully</div>
+    }
+    @if(ViewBag.Error == true) { 
+        <div class="alert alert-danger"> Some error occured</div>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Edit Permissions</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+            <tr>
+                <td>@item.User</td>
+                <td><a href="/Admin/EditApiKey?Id=@item.Id" class="btn btn-primary">Edit</a></td>
+                <td><a href="/Admin/DeleteApiKey?Id=@item.Id" class="btn btn-danger">Delete</a></td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
